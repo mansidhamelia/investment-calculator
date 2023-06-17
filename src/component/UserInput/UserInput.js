@@ -1,20 +1,20 @@
 import { useState } from "react";
-
+import classes from './UserInput.module.css'
 
 const initialInputData = {
     'current-savings': 10000,
-    'yearly-contribution': 12000,
+    'yearly-contribution': 1200,
     'expected-return': 7,
-    duration: 10
+    duration: 5
 }
 
-const UserInput = () => {
+const UserInput = (props) => {
     const [userInput, setUserInput] = useState(initialInputData)
 
     const submitHandler = (event) => {
         event.preventDefault();
 
-
+        props.onCalculate(userInput)
     }
 
     const resetHandler = () => {
@@ -25,14 +25,14 @@ const UserInput = () => {
         setUserInput((prevInput) => {
             return {
                 ...prevInput,
-                [input]: value,
+                [input]: +value,
             }
         })
     }
 
     return (
-        <form onSubmit={submitHandler} className="form">
-            <div className="input-group">
+        <form onSubmit={submitHandler} className={classes.form}>
+            <div className={classes['input-group']}>
                 <p>
                     <label htmlFor="current-savings">Current Savings ($)</label>
                     <input onChange={(event) => changeHandler('current-savings', event.target.value)}
@@ -46,7 +46,7 @@ const UserInput = () => {
                         type="number" id="yearly-contribution" />
                 </p>
             </div>
-            <div className="input-group">
+            <div className={classes["input-group"]}>
                 <p>
                     <label htmlFor="expected-return">
                         Expected Interest (%, per year)
@@ -63,15 +63,15 @@ const UserInput = () => {
                         type="number" id="duration" />
                 </p>
             </div>
-            <p className="actions">
-                <button type="reset" className="buttonAlt" onClick={resetHandler}>
+            <p className={classes.actions}>
+                <button type="reset" className={classes.buttonAlt} onClick={resetHandler}>
                     Reset
                 </button>
-                <button type="submit" className="button" >
+                <button type="submit" className={classes.button} >
                     Calculate
                 </button>
             </p>
-        </form>
+        </form >
 
     )
 }
